@@ -14,7 +14,7 @@ export default async function handler(req, res) {
     }
 
     if (req.method === "POST") {
-      const { name, description, price, image } = req.body || {};
+      const { name, description, price, image, isNewArrival, isTopSelling } = req.body || {};
 
       if (!name || !String(name).trim()) {
         return res.status(400).json({ error: "Product name is required." });
@@ -25,6 +25,8 @@ export default async function handler(req, res) {
         description: description ? String(description) : "",
         price: price !== undefined ? price : "",
         image: image ? String(image) : "",
+        isNewArrival: Boolean(isNewArrival),
+        isTopSelling: Boolean(isTopSelling),
         createdAt: new Date(),
       };
 

@@ -22,12 +22,14 @@ export default async function handler(req, res) {
     }
 
     if (req.method === "PUT") {
-      const { name, description, price, image } = req.body || {};
+      const { name, description, price, image, isNewArrival, isTopSelling } = req.body || {};
       const update = {};
       if (name !== undefined) update.name = String(name).trim();
       if (description !== undefined) update.description = String(description);
       if (price !== undefined) update.price = price;
       if (image !== undefined) update.image = String(image);
+      if (isNewArrival !== undefined) update.isNewArrival = Boolean(isNewArrival);
+      if (isTopSelling !== undefined) update.isTopSelling = Boolean(isTopSelling);
 
       const result = await products.findOneAndUpdate(
         { _id },
