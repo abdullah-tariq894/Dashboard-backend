@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "dependencies": {
-    "mongodb": "^6.10.0"
+  "devDependencies": {
+    "mongodb": "^7.6.0"
   }
 }
