@@ -1,23 +1,17 @@
 // seed-products.js
-// Ye script 12 generic clothing products ek saath MongoDB mein daal deta hai.
+// Ye script pehle saare purane products delete karta hai, phir 12 generic
+// clothing products MongoDB mein daalta hai. Dobara chalane se duplicate nahi banenge.
 //
 // SETUP (ek baar):
-//   1. Is file ko apne shop_co_admin_backend project ke root folder mein rakho
-//      (jahan package.json hai).
-//   2. Terminal mein chalao: npm install mongodb --save-dev
-//   3. Apna MONGODB_URI (wahi jo Vercel env variables mein hai) neeche set karo,
-//      ya terminal mein chalane se pehle set karo (dono tareeqe neeche hain).
+//   1. Is file ko apne project ke root folder mein rakho (jahan package.json hai),
+//      "api" folder ke andar nahi.
+//   2. Terminal mein chalao: npm install mongodb
 //
-// CHALANE KA TAREEQA:
-//   Option A) Seedha terminal mein URI ke saath (PowerShell):
-//     $env:MONGODB_URI="yahan_apna_connection_string_paste_karo"; node seed-products.js
-//
-//   Option B) Is file ke andar neeche MONGODB_URI variable mein seedha paste kar do,
-//     phir bas: node seed-products.js
+// CHALANE KA TAREEQA (PowerShell):
+//   $env:MONGODB_URI="yahan_apna_connection_string_paste_karo"; node seed-products.js
 
 import { MongoClient } from "mongodb";
 
-// Agar terminal se env variable set nahi karna chahte, to seedha yahan paste kar do:
 const MONGODB_URI = process.env.MONGODB_URI || "PASTE_YOUR_MONGODB_URI_HERE";
 const DB_NAME = process.env.MONGODB_DB || "shopco_admin";
 
@@ -135,10 +129,15 @@ async function run() {
     const db = client.db(DB_NAME);
     const collection = db.collection("products");
 
+    // pehle saare purane products delete karo
+    const deleted = await collection.deleteMany({});
+    console.log(`\n🗑️ ${deleted.deletedCount} purane products delete hue`);
+
+    // phir sirf ye 12 daalo
     const docs = products.map((p) => ({ ...p, createdAt: new Date() }));
     const result = await collection.insertMany(docs);
 
-    console.log(`\n✅ ${result.insertedCount} products successfully add ho gaye!\n`);
+    console.log(`✅ ${result.insertedCount} products successfully add ho gaye!\n`);
   } catch (err) {
     console.error("\n❌ Error aaya:", err.message, "\n");
   } finally {
