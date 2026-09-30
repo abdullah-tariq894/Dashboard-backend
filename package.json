@@ -4,6 +4,6 @@
   "private": true,
   "type": "module",
   "devDependencies": {
-    "mongodb": "^7.6.0"
+    "mongodb": "^7.7.0"
   }
 }
